@@ -1,0 +1,24 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 03-08-2025
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+  <lightning-card title="Current Boat Location" icon-name="action:map">
+    <template if:true={showMap}>
+      <lightning-map
+        map-markers={mapMarkers}
+        zoom-level="10"
+        class="slds-m-around_medium"
+        style="border-radius: 15px; overflow: hidden"
+      ></lightning-map>
+    </template>
+    <template if:false={showMap}>
+      <span class="slds-align_absolute-center">
+        Please select a boat to see its location!
+      </span>
+    </template>
+  </lightning-card>
+</template>

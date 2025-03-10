@@ -1,0 +1,105 @@
+{
+  "trailingComma": "all",
+
+  "plugins": ["prettier-plugin-apex", "@prettier/plugin-xml"],
+
+  "singleQuote": false,
+  "bracketSpacing": true,
+  "tabWidth": 4,
+  "semi": true,
+
+  "overrides": [
+    {
+      "files": "**/lwc/**/*.html",
+      "options": { "parser": "lwc" }
+    },
+    {
+      "files": "*.{cmp,page,component}",
+      "options": { "parser": "html" }
+    },
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "lwc",
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": "*.css",
+      "options": {
+        "parser": "css",
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": "*.js",
+      "options": {
+        "parser": "babel",
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": "*.json",
+      "options": {
+        "parser": "json",
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": "*.md",
+      "options": {
+        "parser": "markdown",
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": "*.yml",
+      "options": {
+        "parser": "yaml",
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": "*.yaml",
+      "options": {
+        "parser": "yaml",
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": "*.apex",
+      "options": {
+        "parser": "apex",
+        "tabWidth": 4
+      }
+    },
+    {
+      "files": "*.trigger",
+      "options": {
+        "parser": "apex",
+        "tabWidth": 4
+      }
+    },
+    {
+      "files": "*.cls",
+      "options": {
+        "parser": "apex",
+        "tabWidth": 4
+      }
+    },
+    {
+      "files": "*.resource",
+      "options": {
+        "parser": "xml",
+        "tabWidth": 4
+      }
+    },
+    {
+      "files": "*.xml",
+      "options": {
+        "parser": "xml",
+        "tabWidth": 4
+      }
+    }
+  ]
+}
