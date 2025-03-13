@@ -2,11 +2,14 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 03-08-2025
+  @last modified on  : 03-13-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
-  <lightning-card title="Current Boat Location" icon-name="action:map">
+  <lightning-card
+    title="Current Boat Location"
+    icon-name="action:map"
+  >
     <template if:true={showMap}>
       <lightning-map
         map-markers={mapMarkers}

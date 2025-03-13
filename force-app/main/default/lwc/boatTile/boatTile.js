@@ -21,6 +21,10 @@ export default class BoatTile extends LightningElement {
     return "background-image:url(" + this.boat.Picture__c + ")";
   }
 
+  get boatLength() {
+    return "Length: " + this.boat.Length__c + "m";
+  }
+
   /**
    * Getter for dynamically setting the tile class based on whether the
    * Determines the CSS class for the tile based on the selection state.

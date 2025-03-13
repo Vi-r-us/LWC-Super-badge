@@ -1,16 +1,60 @@
-.tile {
+.tile-wrapper {
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #f3f3f3;
+  border: 2px solid transparent;
+  border-radius: 1.25rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 4px;
+  transition: all 0.15s ease;
+}
+
+.tile-wrapper:hover {
+  box-shadow: none;
+}
+
+.selected {
+  border: 2px solid rgb(0, 95, 178);
+  box-shadow: none;
+}
+
+.tile-image {
   width: 100%;
   height: 220px;
   padding: 1px !important;
   background-position: center;
   background-size: cover;
-  border-radius: 5px;
+  border-radius: 1rem;
 }
-.selected {
-  border: 3px solid rgb(0, 95, 178);
-  border-radius: 5px;
+
+.tile-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
 }
-.tile-wrapper {
-  cursor: pointer;
-  padding: 5px;
+
+.tile-badge {
+  border-radius: 1.25rem;
+  font-weight: bold;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.tile-info {
+  padding-inline: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  
+  h1 {
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
 }

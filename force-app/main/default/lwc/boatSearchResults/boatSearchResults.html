@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 03-09-2025
+  @last modified on  : 03-13-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -13,13 +13,16 @@
         <div class="slds-scrollable_y">
           <!-- layout horizontally aligned to the center  -->
           <!-- layout allowing multiple rows -->
-          <lightning-layout horizontal-align="center" multiple-rows>
+          <lightning-layout
+            horizontal-align="center"
+            multiple-rows
+          >
             <!-- template looping through each boat -->
             <template for:each={boats} for:item="boat">
               <!-- lightning-layout-item for each boat -->
               <lightning-layout-item
                 key={boat.Id}
-                padding="around-small"
+                class="slds-p-around_x-small"
                 size="12"
                 small-device-size="6"
                 medium-device-size="4"

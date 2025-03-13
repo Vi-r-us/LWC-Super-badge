@@ -2,13 +2,16 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 03-09-2025
+  @last modified on  : 03-13-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
   <lightning-layout multiple-rows>
     <!-- Top -->
-    <lightning-layout-item size="12">
+    <lightning-layout-item
+      size="12"
+      style="border: 1px solid #c9c9c9; border-radius: 1.25rem"
+    >
       <lightning-card title="Find a Boat">
         <!-- New Boat button goes here -->
         <lightning-button
@@ -20,9 +23,9 @@
           icon-size="x-small"
           icon-position="left"
         ></lightning-button>
-        
+
         <!-- Search form goes here -->
-        <p class="slds-var-p-horizontal_small">
+        <p class="slds-var-p-horizontal_small" slot="footer">
           <!-- boatSearchForm component goes here -->
           <c-boat-search-form onsearch={searchBoats}></c-boat-search-form>
         </p>
@@ -30,7 +33,10 @@
     </lightning-layout-item>
 
     <!-- Bottom -->
-    <lightning-layout-item size="12" class="slds-p-top_small slds-is-relative">
+    <lightning-layout-item
+      size="12"
+      class="slds-p-top_small slds-is-relative"
+    >
       <!-- Spinner goes here -->
       <template if:true={isLoading}>
         <lightning-spinner
