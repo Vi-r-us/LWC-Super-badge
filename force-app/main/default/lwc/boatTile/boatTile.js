@@ -21,6 +21,12 @@ export default class BoatTile extends LightningElement {
     return "background-image:url(" + this.boat.Picture__c + ")";
   }
 
+  /**
+   * Getter for the formatted string of the boat's length.
+   *
+   * @return {string} the boat's length in meters, formatted as
+   *                  "Length: X meters"
+   */
   get boatLength() {
     return "Length: " + this.boat.Length__c + "m";
   }

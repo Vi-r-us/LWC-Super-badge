@@ -1,4 +1,7 @@
 .tile-wrapper {
+  height: 100%;
+  width: 100%;
+  
   cursor: pointer;
   padding: 0.5rem;
   background-color: #f3f3f3;
@@ -7,7 +10,7 @@
 
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
 
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 4px;
   transition: all 0.15s ease;
@@ -50,7 +53,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  
+  margin-top: auto;
+
   h1 {
     font-size: 1.25rem;
     margin: 0;

@@ -7,6 +7,9 @@
 -->
 <template>
   <div onclick={selectBoat} class={tileClass}>
+    <!-- Picture -->
+    <div style={backgroundStyle} class="tile-image"></div>
+
     <!-- Chips -->
     <div class="tile-badges">
       <!-- Boat length -->
@@ -22,24 +25,27 @@
       ></lightning-badge>
     </div>
 
-    <!-- Picture -->
-    <div style={backgroundStyle} class="tile-image"></div>
-
     <!-- Information -->
     <div class="tile-info">
       <div>
+        <!-- Boat name -->
         <h1 class="slds-truncate slds-text-large">{boat.Name}</h1>
+        <!-- Boat owner and year -->
         <h2 class="slds-truncate slds-text-heading_small">
-          {boat.Contact__r.Name} | 2016
+          {boat.Contact__r.Name} &#x2022; 2016
         </h2>
       </div>
-      <div class="slds-text-large" style="font-weight: bold">
+      <!-- Price -->
+      <div style="font-size: 20px; font-weight: bold">
         $
         <lightning-formatted-number
           value={boat.Price__c}
           maximum-fraction-digits="2"
         ></lightning-formatted-number>
-        <span style="font-size: 10px; margin-left: 5px">usd</span>
+        <span
+          style="font-size: 10px; margin-left: 5px; text-transform: uppercase"
+          >usd</span
+        >
       </div>
     </div>
   </div>
