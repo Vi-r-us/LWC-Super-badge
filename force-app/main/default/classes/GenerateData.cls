@@ -10,6 +10,7 @@
 **************************************************************/
 public class GenerateData {
 
+    // Boat names and their geolocations 
     public static final Map<String, List<Double>> BOAT_NAMES_GEOLOCATIONS = new Map<String, List<Double>> {
         'Sounder' => new List<Double> { 47.630068, -122.335491 }, 
         'Gallifrey Falls' => new List<Double> { 34.201658, -83.987133 }, 
@@ -73,6 +74,7 @@ public class GenerateData {
         'Albert Leichhardt' => new List<Double> { -17.651486, 139.727076 }
     };
 
+    // Map of Boat__c.Id to Boat__c.Description
     private static final Map<Integer, String> BOAT_DESCRIPTION_MAP = new Map<Integer, String>{
         0 => 'Life without a boat is not fun. I love this boat.',
         1 => 'Being on a boat that is moving through the water is one of my favorite experiences ever. Totally recommended.',
@@ -97,6 +99,7 @@ public class GenerateData {
         20 => 'This boat will make you think things like: "Yeah, good luck, that is almost impossible to- oh, we did it. Nice.". Perfect endurance.' 
     };
 
+    // Map of BoatType__c.Name to List of BoatType__c.Picture__c
     public static final Map<String, List<String>> BOAT_TYPE_TO_PICTURE_PATHS_MAP = new Map<String, List<String>>{
         'sailboat' => new List<String>{
             '/resource/Sailboats/sailboat1.png',
