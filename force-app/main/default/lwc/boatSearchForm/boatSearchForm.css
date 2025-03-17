@@ -1,0 +1,19 @@
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.search-container {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  justify-content: center;
+}
+
+.search-input {
+  @media screen and (min-width: 460px) {
+    width: 20rem;
+  }
+}

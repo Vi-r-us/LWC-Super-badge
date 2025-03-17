@@ -5,6 +5,10 @@ import { LightningElement, track, wire } from "lwc";
 // import getBoatTypes from the BoatDataService => getBoatTypes method';
 export default class BoatSearchForm extends LightningElement {
   selectedBoatTypeId = "";
+  // Filters toggle
+  isFiltersVisible = false;
+  // Search term
+  searchQueryTerm = "";
 
   // Private
   error = undefined;
@@ -52,5 +56,27 @@ export default class BoatSearchForm extends LightningElement {
       },
     });
     this.dispatchEvent(searchEvent);
+  }
+
+  
+  /**
+   * Handles the toggle button click event to show/hide the filters
+   * Toggles the isFiltersVisible property
+   */
+  handleFiltersToggle() {
+    this.isFiltersVisible = !this.isFiltersVisible;
+  }
+
+  /**
+   * Handles the keyup event of the search input element.
+   * Checks if the pressed key is the Enter key and if so, updates the
+   * searchQueryTerm property with the value of the input element.
+   * @param {object} event - the event object containing the key code
+   */
+  handleSearchInputKeyUp(event) {
+    const isEnterKey = event.keyCode === 13;
+    if (isEnterKey) {
+      this.searchQueryTerm = event.target.value;
+    }
   }
 }
