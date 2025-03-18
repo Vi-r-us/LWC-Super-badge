@@ -37,11 +37,12 @@ export default class BoatSearch extends NavigationMixin(LightningElement) {
    */
   searchBoats(event) {
     // Get the value of the search text field
+    const boatSearchTerm = event.detail.boatSearchTerm;
     const boatTypeId = event.detail.boatTypeId;
     // Call the searchBoats Apex method
     this.template
       .querySelector("c-boat-search-results")
-      .searchBoats(boatTypeId);
+      .searchBoats(boatSearchTerm, boatTypeId);
     // Show the spinner
     this.handleLoading();
   }

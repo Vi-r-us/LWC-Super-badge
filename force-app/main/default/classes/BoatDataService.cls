@@ -5,7 +5,7 @@
  *                      All queries enforce field-level security.
  * @author            : Sahil K
  * @group             :
- * @last modified on  : 03-08-2025
+ * @last modified on  : 03-18-2025
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  **/
 public with sharing class BoatDataService {
@@ -13,6 +13,7 @@ public with sharing class BoatDataService {
     public static final String PRICE_TYPE = 'Price';
     public static final String TYPE_TYPE = 'Type';
 
+    // TODO: Change the docstring
     /**
      * @description       : Retrieves a list of Boat__c records based on the provided boatTypeId.
      *                      If no boatTypeId is provided, it retrieves all Boat__c records.
@@ -22,7 +23,10 @@ public with sharing class BoatDataService {
      * @example           : List<Boat__c> boats = BoatDataService.getBoats('a0123456789ABC');
      **/
     @AuraEnabled(cacheable=true)
-    public static List<Boat__c> getBoats(String boatTypeId) {
+    public static List<Boat__c> getBoats(
+        String boatSearchTerm,
+        String boatTypeId
+    ) {
         // Without an explicit boatTypeId, the full list is desired
         String query =
             'SELECT ' +
@@ -30,8 +34,16 @@ public with sharing class BoatDataService {
             'Geolocation__Longitude__s, Picture__c, Contact__r.Name, ' +
             'BoatType__c, BoatType__r.Name, Length__c, Price__c ' +
             'FROM Boat__c';
+        if (String.isNotBlank(boatSearchTerm)) {
+            query += ' WHERE Name LIKE :boatSearchTerm';
+        }
         if (String.isNotBlank(boatTypeId)) {
-            query += ' WHERE BoatType__c = :boatTypeId';
+            if (String.isNotBlank(boatSearchTerm)) {
+                query += ' AND';
+            } else {
+                query += ' WHERE';
+            }
+            query += ' BoatType__c = :boatTypeId';
         }
         query += ' WITH SECURITY_ENFORCED ';
         return Database.query(query);

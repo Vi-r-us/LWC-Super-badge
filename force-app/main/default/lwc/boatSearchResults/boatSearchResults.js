@@ -25,6 +25,7 @@ export default class BoatSearchResults extends LightningElement {
     { label: "Price", fieldName: "Price__c", type: "currency" },
     { label: "Description", fieldName: "Description__c" },
   ];
+  boatSearchTerm = "";
   boatTypeId = "";
 
   @track
@@ -38,6 +39,7 @@ export default class BoatSearchResults extends LightningElement {
   @wire(MessageContext)
   messageContext;
 
+  // TODO: Change the docstring
   /**
    * @description: Wired function to get the list of boats based on the boatTypeId.
    *               When the data is available, it updates the boats property.
@@ -46,7 +48,10 @@ export default class BoatSearchResults extends LightningElement {
    * @param {object} param.data - List of Boat__c records
    * @param {object} param.error - Error returned from the Apex method
    */
-  @wire(getBoats, { boatTypeId: "$boatTypeId" })
+  @wire(getBoats, {
+    boatSearchTerm: "$boatSearchTerm",
+    boatTypeId: "$boatTypeId",
+  })
   wiredBoats({ data, error }) {
     if (data) {
       this.boats = data;
@@ -70,9 +75,10 @@ export default class BoatSearchResults extends LightningElement {
    * searchBoats('a0123456789ABC');
    */
   @api
-  searchBoats(boatTypeId) {
+  searchBoats(boatSearchTerm, boatTypeId) {
     this.isLoading = true;
     this.notifyLoading(this.isLoading);
+    this.boatSearchTerm = boatSearchTerm;
     this.boatTypeId = boatTypeId;
   }
 

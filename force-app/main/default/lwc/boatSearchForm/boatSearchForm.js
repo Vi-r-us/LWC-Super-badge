@@ -52,6 +52,7 @@ export default class BoatSearchForm extends LightningElement {
     // searchEvent must be the new custom event search
     const searchEvent = new CustomEvent("search", {
       detail: {
+        boatSearchTerm: this.searchQueryTerm,
         boatTypeId: this.selectedBoatTypeId,
       },
     });
@@ -78,5 +79,12 @@ export default class BoatSearchForm extends LightningElement {
     if (isEnterKey) {
       this.searchQueryTerm = event.target.value;
     }
+    const searchEvent = new CustomEvent("search", {
+      detail: {
+        boatSearchTerm: this.searchQueryTerm,
+        boatTypeId: this.selectedBoatTypeId,
+      },
+    });
+    this.dispatchEvent(searchEvent);
   }
 }
