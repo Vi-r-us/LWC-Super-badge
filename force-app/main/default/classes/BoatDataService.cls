@@ -5,7 +5,7 @@
  *                      All queries enforce field-level security.
  * @author            : Sahil K
  * @group             :
- * @last modified on  : 03-18-2025
+ * @last modified on  : 03-21-2025
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  **/
 public with sharing class BoatDataService {
@@ -27,6 +27,7 @@ public with sharing class BoatDataService {
         String boatSearchTerm,
         String boatTypeId
     ) {
+        String searchTerm = boatSearchTerm + '%';
         // Without an explicit boatTypeId, the full list is desired
         String query =
             'SELECT ' +
@@ -35,7 +36,7 @@ public with sharing class BoatDataService {
             'BoatType__c, BoatType__r.Name, Length__c, Price__c ' +
             'FROM Boat__c';
         if (String.isNotBlank(boatSearchTerm)) {
-            query += ' WHERE Name LIKE :boatSearchTerm';
+            query += ' WHERE Name LIKE :searchTerm';
         }
         if (String.isNotBlank(boatTypeId)) {
             if (String.isNotBlank(boatSearchTerm)) {
@@ -76,7 +77,7 @@ public with sharing class BoatDataService {
                     Contact__r.Name,
                     Name,
                     BoatType__c,
-                    BoatType__r.Name,
+                    BoatType__r.Name,           
                     Length__c,
                     Picture__c,
                     Price__c,

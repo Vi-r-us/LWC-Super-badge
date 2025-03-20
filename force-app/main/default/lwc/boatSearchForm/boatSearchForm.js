@@ -48,18 +48,9 @@ export default class BoatSearchForm extends LightningElement {
    */
   handleSearchOptionChange(event) {
     this.selectedBoatTypeId = event.detail.value;
-    // Create the const searchEvent
-    // searchEvent must be the new custom event search
-    const searchEvent = new CustomEvent("search", {
-      detail: {
-        boatSearchTerm: this.searchQueryTerm,
-        boatTypeId: this.selectedBoatTypeId,
-      },
-    });
-    this.dispatchEvent(searchEvent);
+    this.dispatchSearchEvent();
   }
 
-  
   /**
    * Handles the toggle button click event to show/hide the filters
    * Toggles the isFiltersVisible property
@@ -76,15 +67,26 @@ export default class BoatSearchForm extends LightningElement {
    */
   handleSearchInputKeyUp(event) {
     const isEnterKey = event.keyCode === 13;
+    if (!isEnterKey) {
+      return;
+    }
+
     if (isEnterKey) {
       this.searchQueryTerm = event.target.value;
     }
+    this.dispatchSearchEvent();
+  }
+
+  dispatchSearchEvent() {
+    // Create the const searchEvent
+    // searchEvent must be the new custom event search
     const searchEvent = new CustomEvent("search", {
       detail: {
         boatSearchTerm: this.searchQueryTerm,
         boatTypeId: this.selectedBoatTypeId,
       },
     });
+
     this.dispatchEvent(searchEvent);
   }
 }

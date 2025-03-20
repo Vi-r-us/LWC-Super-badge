@@ -36,23 +36,25 @@ export default class BoatSearchResults extends LightningElement {
   isLoading = false;
 
   // Wire message context to listen to messages
-  @wire(MessageContext)
+  @wire(MessageContext)                                                                                                                                                                                                                                                                                                                             
   messageContext;
 
-  // TODO: Change the docstring
-  /**
-   * @description: Wired function to get the list of boats based on the boatTypeId.
+  // TODO: Change the docstring                   
+  /**                                                                                 
+   * @description: Wired function to get the list of boats based on the boatTypeId.                                                                     
    *               When the data is available, it updates the boats property.
    *               If there is an error, it logs the error to the console.
    * @param {object} param - Response from the wired function
    * @param {object} param.data - List of Boat__c records
    * @param {object} param.error - Error returned from the Apex method
-   */
+   */                                                                                                                                                                                                                                                                                                                                                                                                                                                     
   @wire(getBoats, {
     boatSearchTerm: "$boatSearchTerm",
     boatTypeId: "$boatTypeId",
   })
   wiredBoats({ data, error }) {
+    console.log(data, error);
+    
     if (data) {
       this.boats = data;
     } else if (error) {
@@ -80,6 +82,12 @@ export default class BoatSearchResults extends LightningElement {
     this.notifyLoading(this.isLoading);
     this.boatSearchTerm = boatSearchTerm;
     this.boatTypeId = boatTypeId;
+    console.log(
+      "boatSearchTerm: " +
+        this.boatSearchTerm +
+        " boatTypeId: " +
+        this.boatTypeId,
+    );
   }
 
   /**
