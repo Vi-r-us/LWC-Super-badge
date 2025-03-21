@@ -29,7 +29,7 @@ export default class BoatSearchResults extends LightningElement {
   boatTypeId = "";
 
   @track
-  boats;
+  boats = [];
   @track
   draftValues = [];
 
@@ -175,5 +175,14 @@ export default class BoatSearchResults extends LightningElement {
     } else {
       this.dispatchEvent(CustomEvent("doneloading"));
     }
+  }
+
+  /**
+   * Getter to check if the boats array is not empty.
+   * 
+   * @returns {boolean} True if boats array has elements, false otherwise.
+   */
+  get hasBoats() {
+    return this.boats && this.boats.length > 0;
   }
 }

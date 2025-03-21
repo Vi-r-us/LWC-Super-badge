@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 03-17-2025
+  @last modified on  : 03-21-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -36,7 +36,7 @@
 
     <!-- Search by boat type -->
     <template if:true={isFiltersVisible}>
-      <lightning-layout-item>
+      <lightning-layout-item class="filter-container">
         <lightning-combobox
           name="boatType"
           label="Search by boat type"
@@ -45,6 +45,14 @@
           options={searchOptions}
           onchange={handleSearchOptionChange}
         ></lightning-combobox>
+
+        <c-multi-slider
+          min="0"
+          max="1000"
+          step="10"
+          start="10"
+          end="100"
+        ></c-multi-slider>
       </lightning-layout-item>
     </template>
   </lightning-layout>

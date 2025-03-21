@@ -1,0 +1,53 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 03-21-2025
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+  <!-- Multi Range Slider -->
+  <div class="slds-form-element" onmouseup={onMouseUp}>
+    <!-- Label -->
+    <label class="slds-form-element__label slds-grid" for="input">
+      <span class="slds-col">Total Range {rangeValue}</span>
+      <span class="slds-slider-label__range slds-col_bump-left"
+        >{min}-{max}</span
+      >
+    </label>
+    <!-- Slider -->
+    <div class="slds-form-element__control">
+      <div class="slds-slider">
+        <section class="range-slider">
+          <!-- Slider Control -->
+          <div
+            id="slider"
+            class="slider"
+            onmousemove={onMouseMove}
+            ontouchmove={onMouseMove}
+            onmousedown={handleMouseDown}
+          >
+            <div class="range" data-name="range"></div>
+            <!-- Thumbs Start -->
+            <div
+              class="thumb start"
+              data-name="start"
+              ontouchstart={handleMouseDown}
+              ontouchend={onMouseUp}
+            ></div>
+            <!-- Thumbs End -->
+            <div
+              class="thumb end"
+              data-name="end"
+              ontouchstart={handleMouseDown}
+              ontouchend={onMouseUp}
+            ></div>
+          </div>
+          <span class="slds-slider__value" aria-hidden="true"
+            >{start} - {end}
+          </span>
+        </section>
+      </div>
+    </div>
+  </div>
+</template>

@@ -2,21 +2,21 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 03-13-2025
+  @last modified on  : 03-21-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
   <lightning-tabset variant="scoped">
     <!-- Tab for Gallery -->
     <lightning-tab label="Gallery">
-      <template if:true={boats}>
+      <template if:true={hasBoats}>
         <div class="slds-scrollable_y">
           <!-- layout horizontally aligned to the center  -->
           <!-- layout allowing multiple rows -->
           <lightning-layout
             horizontal-align="center"
             multiple-rows
-            style="align-items: stretch;"
+            style="align-items: stretch"
           >
             <!-- template looping through each boat -->
             <template for:each={boats} for:item="boat">
@@ -38,6 +38,11 @@
               </lightning-layout-item>
             </template>
           </lightning-layout>
+        </div>
+      </template>
+      <template if:false={hasBoats}>
+        <div class="slds-text-align_center slds-p-around_medium">
+          Looks like we were unable to find any boats. Try again later.
         </div>
       </template>
     </lightning-tab>

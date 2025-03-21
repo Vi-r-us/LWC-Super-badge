@@ -12,6 +12,13 @@
   justify-content: center;
 }
 
+.filter-container {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  justify-content: center;
+}
+
 .search-input {
   @media screen and (min-width: 460px) {
     width: 20rem;
