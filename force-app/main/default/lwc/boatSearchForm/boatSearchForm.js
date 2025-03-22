@@ -1,5 +1,6 @@
 // imports
 import getBoatTypes from "@salesforce/apex/BoatDataService.getBoatTypes";
+import getMinMaxValues from "@salesforce/apex/BoatDataService.getMinMaxValues";
 import { LightningElement, track, wire } from "lwc";
 
 // import getBoatTypes from the BoatDataService => getBoatTypes method';
@@ -9,6 +10,21 @@ export default class BoatSearchForm extends LightningElement {
   isFiltersVisible = false;
   // Search term
   searchQueryTerm = "";
+  // Price range
+  priceRange = {
+    min: undefined,
+    max: undefined,
+  };
+  // Length range
+  lengthRange = {
+    min: undefined,
+    max: undefined,
+  };
+  // Year built range
+  yearBuiltRange = {
+    min: undefined,
+    max: undefined,
+  };
 
   // Private
   error = undefined;
@@ -37,6 +53,60 @@ export default class BoatSearchForm extends LightningElement {
       this.searchOptions.unshift({ label: "All Types", value: "" });
     } else if (error) {
       this.searchOptions = undefined;
+      this.error = error;
+    }
+  }
+
+  /**
+   * Wired method to retrieve the minimum and maximum price values for Boat__c records.
+   * Updates the priceRange property with the fetched data.
+   * If there's an error, the priceRange is reset and the error is stored in the error property.
+   * @param {object} param.data - Map containing 'min' and 'max' price values for Boat__c
+   * @param {object} param.error - Error details if the Apex method fails
+   */
+  @wire(getMinMaxValues, { objectName: "Boat__c", fieldName: "Price__c" })
+  priceMinMaxValues({ error, data }) {
+    if (data) {
+      this.priceRange = { ...data };
+    } else if (error) {
+      this.priceRange = { min: undefined, max: undefined };
+      this.error = error;
+    }
+  }
+
+  /**
+   * Wired method to retrieve the minimum and maximum length values for Boat__c records.
+   * Updates the lengthRange property with the fetched data.
+   * If there's an error, the lengthRange is reset and the error is stored in the error property.
+   * @param {object} param.data - Map containing 'min' and 'max' length values for Boat__c
+   * @param {object} param.error - Error details if the Apex method fails
+   */
+  @wire(getMinMaxValues, { objectName: "Boat__c", fieldName: "Length__c" })
+  lengthMinMaxValues({ error, data }) {
+    if (data) {
+      console.log("lengthMinMaxValues data", data);
+      this.lengthRange = { ...data };
+    } else if (error) {
+      this.lengthRange = { min: undefined, max: undefined };
+      this.error = error;
+    }
+  }
+
+  /**
+   * Wired method to retrieve the minimum and maximum year built values for Boat__c records.
+   * Updates the yearBuiltRange property with the fetched data.
+   * If there's an error, the yearBuiltRange is reset and the error is stored in the error property.
+   * @param {object} param.data - Map containing 'min' and 'max' year built values for Boat__c
+   * @param {object} param.error - Error details if the Apex method fails
+   */
+  @wire(getMinMaxValues, { objectName: "Boat__c", fieldName: "Year_Built__c" })
+  yearBuiltMinMaxValues({ error, data }) {
+    if (data) {
+      console.log("yearBuiltMinMaxValues data", data);
+      
+      this.yearBuiltRange = { ...data };
+    } else if (error) {
+      this.yearBuiltRange = { min: undefined, max: undefined };
       this.error = error;
     }
   }

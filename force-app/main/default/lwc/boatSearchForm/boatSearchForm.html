@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 03-21-2025
+  @last modified on  : 03-22-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -37,6 +37,7 @@
     <!-- Search by boat type -->
     <template if:true={isFiltersVisible}>
       <lightning-layout-item class="filter-container">
+        <!-- Boat type -->
         <lightning-combobox
           name="boatType"
           label="Search by boat type"
@@ -46,13 +47,33 @@
           onchange={handleSearchOptionChange}
         ></lightning-combobox>
 
+        <!-- Price range multi slider -->
         <c-multi-slider
-          min="0"
-          max="1000"
-          step="10"
-          start="10"
-          end="100"
+          min={priceRange.min}
+          max={priceRange.max}
+          step="10000"
+          start={priceRange.min}
+          end={priceRange.max}
         ></c-multi-slider>
+
+        <!-- Length range multi slider -->
+        <c-multi-slider
+          min={lengthRange.min}
+          max={lengthRange.max}
+          step="1"
+          start={lengthRange.min}
+          end={lengthRange.max}
+        ></c-multi-slider>
+
+        <!-- Year built range multi slider -->
+        <c-multi-slider
+          min={yearBuiltRange.min}
+          max={yearBuiltRange.max}
+          step="1"
+          start={yearBuiltRange.min}
+          end={yearBuiltRange.max}
+        ></c-multi-slider>
+
       </lightning-layout-item>
     </template>
   </lightning-layout>

@@ -5,7 +5,7 @@
  *                      All queries enforce field-level security.
  * @author            : Sahil K
  * @group             :
- * @last modified on  : 03-21-2025
+ * @last modified on  : 03-22-2025
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  **/
 public with sharing class BoatDataService {
@@ -149,6 +149,30 @@ public with sharing class BoatDataService {
             ORDER BY Name
         ];
     }
+
+    /**
+     * @description       : Retrieves the minimum and maximum values of a field from a given object.
+     *                      The query enforces field-level security.
+     * @param objectName  : The name of the object to query.
+     * @param fieldName   : The name of the field to retrieve the minimum and maximum values for.
+     * @return            : A map containing the minimum and maximum values of the field.
+     * @example           : Map<String, Decimal> minMaxValues = BoatDataService.getMinMaxValues('Boat__c', 'Length__c');
+     **/
+    @AuraEnabled (cacheable=true)
+    public static Map<String, Decimal> getMinMaxValues(
+        String objectName,
+        String fieldName
+    ) {
+        Map<String, Decimal> minMaxValues = new Map<String, Decimal>();
+        String query = 'SELECT MIN(' + fieldName + ') min, MAX(' + fieldName + ') max FROM ' + objectName + ' WITH SECURITY_ENFORCED';
+        List<AggregateResult> results = Database.query(query);
+        if (!results.isEmpty()) {
+            minMaxValues.put('min', (Decimal) results[0].get('min'));
+            minMaxValues.put('max', (Decimal) results[0].get('max'));
+        }
+        return minMaxValues;
+    }
+    
 
     /**
      * @description       : Retrieves a list of BoatReview__c records for a given boatId.
