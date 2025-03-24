@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 03-22-2025
+  @last modified on  : 03-24-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -49,31 +49,33 @@
 
         <!-- Price range multi slider -->
         <c-multi-slider
-          min={priceRange.min}
-          max={priceRange.max}
+          min={priceMaxMinRange.min}
+          max={priceMaxMinRange.max}
           step="10000"
           start={priceRange.min}
           end={priceRange.max}
+          onchangevalue={handlePriceChange}
         ></c-multi-slider>
 
         <!-- Length range multi slider -->
         <c-multi-slider
-          min={lengthRange.min}
-          max={lengthRange.max}
+          min={lengthMaxMinRange.min}
+          max={lengthMaxMinRange.max}
           step="1"
           start={lengthRange.min}
           end={lengthRange.max}
+          onchangevalue={handleLengthChange}
         ></c-multi-slider>
 
         <!-- Year built range multi slider -->
         <c-multi-slider
-          min={yearBuiltRange.min}
-          max={yearBuiltRange.max}
+          min={yearBuiltMaxMinRange.min}
+          max={yearBuiltMaxMinRange.max}
           step="1"
           start={yearBuiltRange.min}
           end={yearBuiltRange.max}
+          onchangevalue={handleYearBuiltChange}
         ></c-multi-slider>
-
       </lightning-layout-item>
     </template>
   </lightning-layout>

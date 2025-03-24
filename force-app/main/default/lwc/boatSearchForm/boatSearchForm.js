@@ -10,17 +10,31 @@ export default class BoatSearchForm extends LightningElement {
   isFiltersVisible = false;
   // Search term
   searchQueryTerm = "";
-  // Price range
+
+  // Price max min range
+  priceMaxMinRange = {
+    min: undefined,
+    max: undefined,
+  };
+  // Length max min range
+  lengthMaxMinRange = {
+    min: undefined,
+    max: undefined,
+  };
+  // Year built max min range
+  yearBuiltMaxMinRange = {
+    min: undefined,
+    max: undefined,
+  };
+
   priceRange = {
     min: undefined,
     max: undefined,
   };
-  // Length range
   lengthRange = {
     min: undefined,
     max: undefined,
   };
-  // Year built range
   yearBuiltRange = {
     min: undefined,
     max: undefined,
@@ -59,54 +73,54 @@ export default class BoatSearchForm extends LightningElement {
 
   /**
    * Wired method to retrieve the minimum and maximum price values for Boat__c records.
-   * Updates the priceRange property with the fetched data.
-   * If there's an error, the priceRange is reset and the error is stored in the error property.
+   * Updates the priceMaxMinRange property with the fetched data.
+   * If there's an error, the priceMaxMinRange is reset and the error is stored in the error property.
    * @param {object} param.data - Map containing 'min' and 'max' price values for Boat__c
    * @param {object} param.error - Error details if the Apex method fails
    */
   @wire(getMinMaxValues, { objectName: "Boat__c", fieldName: "Price__c" })
-  priceMinMaxValues({ error, data }) {
+  wiredPriceMinMaxValues({ error, data }) {
     if (data) {
+      this.priceMaxMinRange = { ...data };
       this.priceRange = { ...data };
     } else if (error) {
-      this.priceRange = { min: undefined, max: undefined };
+      this.priceMaxMinRange = { min: undefined, max: undefined };
       this.error = error;
     }
   }
 
   /**
    * Wired method to retrieve the minimum and maximum length values for Boat__c records.
-   * Updates the lengthRange property with the fetched data.
-   * If there's an error, the lengthRange is reset and the error is stored in the error property.
+   * Updates the lengthMaxMinRange property with the fetched data.
+   * If there's an error, the lengthMaxMinRange is reset and the error is stored in the error property.
    * @param {object} param.data - Map containing 'min' and 'max' length values for Boat__c
    * @param {object} param.error - Error details if the Apex method fails
    */
   @wire(getMinMaxValues, { objectName: "Boat__c", fieldName: "Length__c" })
-  lengthMinMaxValues({ error, data }) {
+  wiredLengthMinMaxValues({ error, data }) {
     if (data) {
-      console.log("lengthMinMaxValues data", data);
+      this.lengthMaxMinRange = { ...data };
       this.lengthRange = { ...data };
     } else if (error) {
-      this.lengthRange = { min: undefined, max: undefined };
+      this.lengthMaxMinRange = { min: undefined, max: undefined };
       this.error = error;
     }
   }
 
   /**
    * Wired method to retrieve the minimum and maximum year built values for Boat__c records.
-   * Updates the yearBuiltRange property with the fetched data.
-   * If there's an error, the yearBuiltRange is reset and the error is stored in the error property.
+   * Updates the yearBuiltMaxMinRange property with the fetched data.
+   * If there's an error, the yearBuiltMaxMinRange is reset and the error is stored in the error property.
    * @param {object} param.data - Map containing 'min' and 'max' year built values for Boat__c
    * @param {object} param.error - Error details if the Apex method fails
    */
   @wire(getMinMaxValues, { objectName: "Boat__c", fieldName: "Year_Built__c" })
-  yearBuiltMinMaxValues({ error, data }) {
+  wiredYearBuiltMinMaxValues({ error, data }) {
     if (data) {
-      console.log("yearBuiltMinMaxValues data", data);
-      
+      this.yearBuiltMaxMinRange = { ...data };
       this.yearBuiltRange = { ...data };
     } else if (error) {
-      this.yearBuiltRange = { min: undefined, max: undefined };
+      this.yearBuiltMaxMinRange = { min: undefined, max: undefined };
       this.error = error;
     }
   }
@@ -147,6 +161,30 @@ export default class BoatSearchForm extends LightningElement {
     this.dispatchSearchEvent();
   }
 
+  handlePriceChange(event) {
+    this.priceRange = {
+      min: event.detail.min,
+      max: event.detail.max,
+    };
+    this.dispatchSearchEvent();
+  }
+
+  handleLengthChange(event) {
+    this.lengthRange = {
+      min: event.detail.min,
+      max: event.detail.max,
+    };
+    this.dispatchSearchEvent();
+  }
+
+  handleYearBuiltChange(event) {
+    this.yearBuiltRange = {
+      min: event.detail.min,
+      max: event.detail.max,
+    };
+    this.dispatchSearchEvent();
+  }
+
   dispatchSearchEvent() {
     // Create the const searchEvent
     // searchEvent must be the new custom event search
@@ -154,6 +192,9 @@ export default class BoatSearchForm extends LightningElement {
       detail: {
         boatSearchTerm: this.searchQueryTerm,
         boatTypeId: this.selectedBoatTypeId,
+        boatPriceRange: this.priceRange,
+        boatLengthRange: this.lengthRange,
+        boatYearBuiltRange: this.yearBuiltRange,
       },
     });
 

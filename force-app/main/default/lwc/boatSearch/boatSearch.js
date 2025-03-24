@@ -28,9 +28,8 @@ export default class BoatSearch extends NavigationMixin(LightningElement) {
   /**
    * Handles the search boat event.
    *
-   * This method is called by the BoatSearchForm component when the user
-   * searches for boats. It gets the value of the search text field,
-   * calls the searchBoats Apex method, and displays the spinner.
+   * This function is called by the BoatSearchForm component when the user
+   * searches for boats. It calls the searchBoats Apex method and shows the spinner.
    *
    * @param {object} event - The search boat event containing the boatTypeId
    * @example - searchBoats('a0123456789ABC');
@@ -39,10 +38,21 @@ export default class BoatSearch extends NavigationMixin(LightningElement) {
     // Get the value of the search text field
     const boatSearchTerm = event.detail.boatSearchTerm;
     const boatTypeId = event.detail.boatTypeId;
+    const boatPriceRange = event.detail
+      ? event.detail.boatPriceRange
+      : undefined;
+    const boatLengthRange = event.detail
+      ? event.detail.boatLengthRange
+      : undefined;
+    const boatYearRange = event.detail
+      ? event.detail.boatYearBuiltRange
+      : undefined;
+
     // Call the searchBoats Apex method
     this.template
       .querySelector("c-boat-search-results")
       .searchBoats(boatSearchTerm, boatTypeId);
+      
     // Show the spinner
     this.handleLoading();
   }
