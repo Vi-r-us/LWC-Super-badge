@@ -5,7 +5,7 @@
  *                      All queries enforce field-level security.
  * @author            : Sahil K
  * @group             :
- * @last modified on  : 03-22-2025
+ * @last modified on  : 03-26-2025
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  **/
 public with sharing class BoatDataService {
@@ -25,8 +25,20 @@ public with sharing class BoatDataService {
     @AuraEnabled(cacheable=true)
     public static List<Boat__c> getBoats(
         String boatSearchTerm,
-        String boatTypeId
+        String boatTypeId,
+        RangeWrapper boatPriceRange,
+        RangeWrapper boatLengthRange,
+        RangeWrapper boatYearRange
     ) {
+        System.debug(
+            'boatSearchTerm: ' +
+                boatSearchTerm +
+                ' min: ' +
+                boatPriceRange.min +
+                ' max: ' +
+                boatPriceRange.max
+        );
+
         String searchTerm = boatSearchTerm + '%';
         // Without an explicit boatTypeId, the full list is desired
         String query =
@@ -46,6 +58,44 @@ public with sharing class BoatDataService {
             }
             query += ' BoatType__c = :boatTypeId';
         }
+
+        // if (boatPriceRange != null) {
+        //     if (
+        //         String.isNotBlank(boatSearchTerm) ||
+        //         String.isNotBlank(boatTypeId)
+        //     ) {
+        //         query += ' AND';
+        //     } else {
+        //         query += ' WHERE';
+        //     }
+        //     query += ' (Price__c >= :boatPriceRange.min AND Price__c <= :boatPriceRange.max)';
+        // }
+        // if (boatLengthRange != null) {
+        //     if (
+        //         String.isNotBlank(boatSearchTerm) ||
+        //         String.isNotBlank(boatTypeId) ||
+        //         boatPriceRange != null
+        //     ) {
+        //         query += ' AND';
+        //     } else {
+        //         query += ' WHERE';
+        //     }
+        //     query += ' (Length__c >= :boatLengthRange.min AND Length__c <= :boatLengthRange.max)';
+        // }
+        // if (boatYearRange != null) {
+        //     if (
+        //         String.isNotBlank(boatSearchTerm) ||
+        //         String.isNotBlank(boatTypeId) ||
+        //         boatPriceRange != null ||
+        //         boatLengthRange != null
+        //     ) {
+        //         query += ' AND';
+        //     } else {
+        //         query += ' WHERE';
+        //     }
+        //     query += ' (Year_Built__c >= :boatYearRange.min AND Year_Built__c <= :boatYearRange.max)';
+        // }
+
         query += ' WITH SECURITY_ENFORCED ';
         return Database.query(query);
     }
@@ -77,7 +127,7 @@ public with sharing class BoatDataService {
                     Contact__r.Name,
                     Name,
                     BoatType__c,
-                    BoatType__r.Name,           
+                    BoatType__r.Name,
                     Length__c,
                     Picture__c,
                     Price__c,
@@ -158,13 +208,20 @@ public with sharing class BoatDataService {
      * @return            : A map containing the minimum and maximum values of the field.
      * @example           : Map<String, Decimal> minMaxValues = BoatDataService.getMinMaxValues('Boat__c', 'Length__c');
      **/
-    @AuraEnabled (cacheable=true)
+    @AuraEnabled(cacheable=true)
     public static Map<String, Decimal> getMinMaxValues(
         String objectName,
         String fieldName
     ) {
         Map<String, Decimal> minMaxValues = new Map<String, Decimal>();
-        String query = 'SELECT MIN(' + fieldName + ') min, MAX(' + fieldName + ') max FROM ' + objectName + ' WITH SECURITY_ENFORCED';
+        String query =
+            'SELECT MIN(' +
+            fieldName +
+            ') min, MAX(' +
+            fieldName +
+            ') max FROM ' +
+            objectName +
+            ' WITH SECURITY_ENFORCED';
         List<AggregateResult> results = Database.query(query);
         if (!results.isEmpty()) {
             minMaxValues.put('min', (Decimal) results[0].get('min'));
@@ -172,7 +229,6 @@ public with sharing class BoatDataService {
         }
         return minMaxValues;
     }
-    
 
     /**
      * @description       : Retrieves a list of BoatReview__c records for a given boatId.

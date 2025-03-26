@@ -27,6 +27,9 @@ export default class BoatSearchResults extends LightningElement {
   ];
   boatSearchTerm = "";
   boatTypeId = "";
+  boatPriceRange = undefined;
+  boatLengthRange = undefined;
+  boatYearRange = undefined;
 
   @track
   boats = [];
@@ -36,25 +39,28 @@ export default class BoatSearchResults extends LightningElement {
   isLoading = false;
 
   // Wire message context to listen to messages
-  @wire(MessageContext)                                                                                                                                                                                                                                                                                                                             
+  @wire(MessageContext)
   messageContext;
 
-  // TODO: Change the docstring                   
-  /**                                                                                 
-   * @description: Wired function to get the list of boats based on the boatTypeId.                                                                     
+  // TODO: Change the docstring
+  /**
+   * @description: Wired function to get the list of boats based on the boatTypeId.
    *               When the data is available, it updates the boats property.
    *               If there is an error, it logs the error to the console.
    * @param {object} param - Response from the wired function
    * @param {object} param.data - List of Boat__c records
    * @param {object} param.error - Error returned from the Apex method
-   */                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+   */
   @wire(getBoats, {
     boatSearchTerm: "$boatSearchTerm",
     boatTypeId: "$boatTypeId",
+    boatPriceRange: "$boatPriceRange",
+    boatLengthRange: "$boatLengthRange",
+    boatYearRange: "$boatYearRange",
   })
   wiredBoats({ data, error }) {
     console.log(data, error);
-    
+
     if (data) {
       this.boats = data;
     } else if (error) {
@@ -77,11 +83,16 @@ export default class BoatSearchResults extends LightningElement {
    * searchBoats('a0123456789ABC');
    */
   @api
-  searchBoats(boatSearchTerm, boatTypeId) {
+  searchBoats(boatSearchTerm, boatTypeId, boatPriceRange, boatLengthRange, boatYearRange) {
     this.isLoading = true;
     this.notifyLoading(this.isLoading);
+
     this.boatSearchTerm = boatSearchTerm;
     this.boatTypeId = boatTypeId;
+    this.boatPriceRange = boatPriceRange;
+    this.boatLengthRange = boatLengthRange;
+    this.boatYearRange = boatYearRange;
+
     console.log(
       "boatSearchTerm: " +
         this.boatSearchTerm +
@@ -179,7 +190,7 @@ export default class BoatSearchResults extends LightningElement {
 
   /**
    * Getter to check if the boats array is not empty.
-   * 
+   *
    * @returns {boolean} True if boats array has elements, false otherwise.
    */
   get hasBoats() {

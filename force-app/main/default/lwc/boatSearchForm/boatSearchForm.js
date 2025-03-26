@@ -126,6 +126,14 @@ export default class BoatSearchForm extends LightningElement {
   }
 
   /**
+   * Handles the toggle button click event to show/hide the filters
+   * Toggles the isFiltersVisible property
+   */
+  handleFiltersToggle() {
+    this.isFiltersVisible = !this.isFiltersVisible;
+  }
+
+  /**
    * Handles a change in the search options dropdown
    * @param {object} event event with the detail of the selected value
    * Triggers a custom search event with the selected boatTypeId
@@ -133,14 +141,6 @@ export default class BoatSearchForm extends LightningElement {
   handleSearchOptionChange(event) {
     this.selectedBoatTypeId = event.detail.value;
     this.dispatchSearchEvent();
-  }
-
-  /**
-   * Handles the toggle button click event to show/hide the filters
-   * Toggles the isFiltersVisible property
-   */
-  handleFiltersToggle() {
-    this.isFiltersVisible = !this.isFiltersVisible;
   }
 
   /**

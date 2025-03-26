@@ -38,21 +38,21 @@ export default class BoatSearch extends NavigationMixin(LightningElement) {
     // Get the value of the search text field
     const boatSearchTerm = event.detail.boatSearchTerm;
     const boatTypeId = event.detail.boatTypeId;
-    const boatPriceRange = event.detail
-      ? event.detail.boatPriceRange
-      : undefined;
-    const boatLengthRange = event.detail
-      ? event.detail.boatLengthRange
-      : undefined;
-    const boatYearRange = event.detail
-      ? event.detail.boatYearBuiltRange
-      : undefined;
+    const boatPriceRange = event.detail.boatPriceRange;
+    const boatLengthRange = event.detail.boatLengthRange;
+    const boatYearRange = event.detail.boatYearBuiltRange;
 
     // Call the searchBoats Apex method
     this.template
       .querySelector("c-boat-search-results")
-      .searchBoats(boatSearchTerm, boatTypeId);
-      
+      .searchBoats(
+        boatSearchTerm,
+        boatTypeId,
+        boatPriceRange,
+        boatLengthRange,
+        boatYearRange,
+      );
+
     // Show the spinner
     this.handleLoading();
   }
