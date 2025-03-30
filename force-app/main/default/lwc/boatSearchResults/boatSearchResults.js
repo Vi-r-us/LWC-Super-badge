@@ -27,9 +27,9 @@ export default class BoatSearchResults extends LightningElement {
   ];
   boatSearchTerm = "";
   boatTypeId = "";
-  boatPriceRange = undefined;
-  boatLengthRange = undefined;
-  boatYearRange = undefined;
+  boatPriceRange = {};
+  boatLengthRange = {};
+  boatYearRange = {};
 
   @track
   boats = [];
@@ -42,9 +42,9 @@ export default class BoatSearchResults extends LightningElement {
   @wire(MessageContext)
   messageContext;
 
-  // TODO: Change the docstring
   /**
-   * @description: Wired function to get the list of boats based on the boatTypeId.
+   * @description: Wired function to get the list of boats based on the current search
+   *               term, boat type, price range, length range, and year range.
    *               When the data is available, it updates the boats property.
    *               If there is an error, it logs the error to the console.
    * @param {object} param - Response from the wired function
@@ -59,31 +59,46 @@ export default class BoatSearchResults extends LightningElement {
     boatYearRange: "$boatYearRange",
   })
   wiredBoats({ data, error }) {
-    console.log(data, error);
+    console.log("Boat Search Results: " + data + " " + error);
 
     if (data) {
+      console.log("Boats retrieved:", data);
       this.boats = data;
+      this.error = undefined;
     } else if (error) {
-      console.log("data.error");
-      console.log(error);
+      console.error("Error retrieving boats:", error);
+      this.error = error;
+      this.boats = undefined;
     }
   }
 
   /**
-   * Search for boats based on the provided boatTypeId.
+   * Searches for boats based on the provided search term, boat type, price range,
+   * length range, and year range.
    *
    * This function is called by the BoatSearchForm component when the user
    * searches for boats.
    *
-   * This method will update the boatTypeId property and call the
+   * This method will update the boatSearchTerm, boatTypeId, boatPriceRange,
+   * boatLengthRange, and boatYearRange properties and call the
    * notifyLoading function to show the spinner.
    *
+   * @param {string} boatSearchTerm - The search term to search for.
    * @param {string} boatTypeId - The Id of the boat type to search for.
+   * @param {RangeWrapper} boatPriceRange - The price range to search for.
+   * @param {RangeWrapper} boatLengthRange - The length range to search for.
+   * @param {RangeWrapper} boatYearRange - The year range to search for.
    * @example
-   * searchBoats('a0123456789ABC');
+   * searchBoats('test', 'a0123456789ABC', {min: 10000, max: 20000}, {min: 25, max: 50}, {min: 2000, max: 2020});
    */
   @api
-  searchBoats(boatSearchTerm, boatTypeId, boatPriceRange, boatLengthRange, boatYearRange) {
+  searchBoats(
+    boatSearchTerm,
+    boatTypeId,
+    boatPriceRange,
+    boatLengthRange,
+    boatYearRange,
+  ) {
     this.isLoading = true;
     this.notifyLoading(this.isLoading);
 
@@ -92,13 +107,6 @@ export default class BoatSearchResults extends LightningElement {
     this.boatPriceRange = boatPriceRange;
     this.boatLengthRange = boatLengthRange;
     this.boatYearRange = boatYearRange;
-
-    console.log(
-      "boatSearchTerm: " +
-        this.boatSearchTerm +
-        " boatTypeId: " +
-        this.boatTypeId,
-    );
   }
 
   /**

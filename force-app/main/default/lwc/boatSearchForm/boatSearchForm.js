@@ -161,33 +161,57 @@ export default class BoatSearchForm extends LightningElement {
     this.dispatchSearchEvent();
   }
 
+  /**
+   * Handles the change event for the price range slider.
+   * @param {object} event - The event generated when the price range slider is changed.
+   * @param {number} event.detail.start - The new start value of the price range.
+   * @param {number} event.detail.end - The new end value of the price range.
+   */
   handlePriceChange(event) {
     this.priceRange = {
-      min: event.detail.min,
-      max: event.detail.max,
+      min: event.detail.start,
+      max: event.detail.end,
     };
     this.dispatchSearchEvent();
   }
 
+/**
+ * Handles the change event for the length range slider.
+ * @param {object} event - The event object containing the updated range values.
+ * @param {number} event.detail.start - The new start value of the length range.
+ * @param {number} event.detail.end - The new end value of the length range.
+ */
   handleLengthChange(event) {
     this.lengthRange = {
-      min: event.detail.min,
-      max: event.detail.max,
+      min: event.detail.start,
+      max: event.detail.end,
     };
     this.dispatchSearchEvent();
   }
 
+/**
+ * Handles the change event for the year built range slider.
+ * @param {object} event - The event object containing the updated range values.
+ * @param {number} event.detail.start - The new start value of the year built range.
+ * @param {number} event.detail.end - The new end value of the year built range.
+ */
   handleYearBuiltChange(event) {
     this.yearBuiltRange = {
-      min: event.detail.min,
-      max: event.detail.max,
+      min: event.detail.start,
+      max: event.detail.end,
     };
     this.dispatchSearchEvent();
   }
 
+/**
+ * Dispatches a custom "search" event with search criteria details.
+ *
+ * This method creates and dispatches a "search" custom event with the
+ * current search query term, selected boat type ID, and specified
+ * ranges for price, length, and year built. It is triggered by changes
+ * in the search form inputs.
+ */
   dispatchSearchEvent() {
-    // Create the const searchEvent
-    // searchEvent must be the new custom event search
     const searchEvent = new CustomEvent("search", {
       detail: {
         boatSearchTerm: this.searchQueryTerm,

@@ -5,7 +5,7 @@
  *                      All queries enforce field-level security.
  * @author            : Sahil K
  * @group             :
- * @last modified on  : 03-26-2025
+ * @last modified on  : 03-31-2025
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  **/
 public with sharing class BoatDataService {
@@ -13,15 +13,19 @@ public with sharing class BoatDataService {
     public static final String PRICE_TYPE = 'Price';
     public static final String TYPE_TYPE = 'Type';
 
-    // TODO: Change the docstring
     /**
-     * @description       : Retrieves a list of Boat__c records based on the provided boatTypeId.
-     *                      If no boatTypeId is provided, it retrieves all Boat__c records.
-     *                      The query enforces field-level security.
-     * @param boatTypeId  : The Id of the BoatType__c to filter the boats by.
-     * @return            : A list of Boat__c records.
-     * @example           : List<Boat__c> boats = BoatDataService.getBoats('a0123456789ABC');
-     **/
+     * @description           : Retrieves a list of Boat__c records based on the provided search term, boat type, and range filters.
+     *                          If no filters are provided, it retrieves all Boat__c records.
+     *                          The query enforces field-level security and dynamically constructs conditions based on the input parameters.
+     * @param boatSearchTerm  : (Optional) The search term to filter boats by name. Supports partial matching.
+     * @param boatTypeId      : (Optional) The Id of the BoatType__c to filter the boats by.
+     * @param boatPriceRange  : (Optional) A RangeWrapper object containing the minimum and maximum price range.
+     * @param boatLengthRange : (Optional) A RangeWrapper object containing the minimum and maximum length range.
+     * @param boatYearRange   : (Optional) A RangeWrapper object containing the minimum and maximum year built range.
+     * @return                : A list of Boat__c records matching the provided filters.
+     * @example               : List<Boat__c> boats = BoatDataService.getBoats('Speed', 'a0123456789ABC',
+     *                          new RangeWrapper(10000, 50000), new RangeWrapper(20, 50), new RangeWrapper(2000, 2020));
+     */
     @AuraEnabled(cacheable=true)
     public static List<Boat__c> getBoats(
         String boatSearchTerm,
@@ -30,73 +34,68 @@ public with sharing class BoatDataService {
         RangeWrapper boatLengthRange,
         RangeWrapper boatYearRange
     ) {
-        System.debug(
-            'boatSearchTerm: ' +
-                boatSearchTerm +
-                ' min: ' +
-                boatPriceRange.min +
-                ' max: ' +
-                boatPriceRange.max
-        );
-
+        // Initialize search term with wildcard for partial matching
         String searchTerm = boatSearchTerm + '%';
-        // Without an explicit boatTypeId, the full list is desired
+
+        // Extract min and max values from RangeWrapper objects
+        Integer priceMin = boatPriceRange != null ? boatPriceRange.min : null;
+        Integer priceMax = boatPriceRange != null ? boatPriceRange.max : null;
+        Integer lengthMin = boatLengthRange != null
+            ? boatLengthRange.min
+            : null;
+        Integer lengthMax = boatLengthRange != null
+            ? boatLengthRange.max
+            : null;
+        Integer yearMin = boatYearRange != null ? boatYearRange.min : null;
+        Integer yearMax = boatYearRange != null ? boatYearRange.max : null;
+
+        // Start building the dynamic SOQL query
         String query =
             'SELECT ' +
             'Name, Description__c, Geolocation__Latitude__s, ' +
             'Geolocation__Longitude__s, Picture__c, Contact__r.Name, ' +
-            'BoatType__c, BoatType__r.Name, Length__c, Price__c ' +
+            'BoatType__c, BoatType__r.Name, Length__c, Price__c, Year_Built__c ' +
             'FROM Boat__c';
+
+        Boolean hasWhereClause = false;
+
+        // Add search term filter if provided
         if (String.isNotBlank(boatSearchTerm)) {
             query += ' WHERE Name LIKE :searchTerm';
+            hasWhereClause = true;
         }
+
+        // Add boat type filter if provided
         if (String.isNotBlank(boatTypeId)) {
-            if (String.isNotBlank(boatSearchTerm)) {
-                query += ' AND';
-            } else {
-                query += ' WHERE';
-            }
+            query += hasWhereClause ? ' AND' : ' WHERE';
             query += ' BoatType__c = :boatTypeId';
+            hasWhereClause = true;
         }
 
-        // if (boatPriceRange != null) {
-        //     if (
-        //         String.isNotBlank(boatSearchTerm) ||
-        //         String.isNotBlank(boatTypeId)
-        //     ) {
-        //         query += ' AND';
-        //     } else {
-        //         query += ' WHERE';
-        //     }
-        //     query += ' (Price__c >= :boatPriceRange.min AND Price__c <= :boatPriceRange.max)';
-        // }
-        // if (boatLengthRange != null) {
-        //     if (
-        //         String.isNotBlank(boatSearchTerm) ||
-        //         String.isNotBlank(boatTypeId) ||
-        //         boatPriceRange != null
-        //     ) {
-        //         query += ' AND';
-        //     } else {
-        //         query += ' WHERE';
-        //     }
-        //     query += ' (Length__c >= :boatLengthRange.min AND Length__c <= :boatLengthRange.max)';
-        // }
-        // if (boatYearRange != null) {
-        //     if (
-        //         String.isNotBlank(boatSearchTerm) ||
-        //         String.isNotBlank(boatTypeId) ||
-        //         boatPriceRange != null ||
-        //         boatLengthRange != null
-        //     ) {
-        //         query += ' AND';
-        //     } else {
-        //         query += ' WHERE';
-        //     }
-        //     query += ' (Year_Built__c >= :boatYearRange.min AND Year_Built__c <= :boatYearRange.max)';
-        // }
+        // Add price range filter if provided
+        if (priceMin != null && priceMax != null) {
+            query += hasWhereClause ? ' AND' : ' WHERE';
+            query += ' (Price__c >= :priceMin AND Price__c <= :priceMax)';
+            hasWhereClause = true;
+        }
 
-        query += ' WITH SECURITY_ENFORCED ';
+        // Add length range filter if provided
+        if (lengthMin != null && lengthMax != null) {
+            query += hasWhereClause ? ' AND' : ' WHERE';
+            query += ' (Length__c >= :lengthMin AND Length__c <= :lengthMax)';
+            hasWhereClause = true;
+        }
+
+        // Add year built range filter if provided
+        if (yearMin != null && yearMax != null) {
+            query += hasWhereClause ? ' AND' : ' WHERE';
+            query += ' (Year_Built__c >= :yearMin AND Year_Built__c <= :yearMax)';
+        }
+
+        // Enforce field-level security
+        query += ' WITH SECURITY_ENFORCED';
+
+        // Execute the query and return the results
         return Database.query(query);
     }
 
