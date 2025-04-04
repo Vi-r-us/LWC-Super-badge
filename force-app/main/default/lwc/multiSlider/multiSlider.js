@@ -51,6 +51,8 @@ export default class MultiSlider extends LightningElement {
     this._end = this.setBoundaries(value);
   }
 
+  @api title = "Total"; // Default title for the slider
+
   /**
    * @description       : Calculates the range value (difference between start and end).
    * @returns {number}  : The absolute difference between start and end.

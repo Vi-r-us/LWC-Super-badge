@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 03-30-2025
+  @last modified on  : 04-03-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -64,6 +64,7 @@
           step="1"
           start={lengthRange.min}
           end={lengthRange.max}
+          title="Length"
           onchange={handleLengthChange}
         ></c-multi-slider>
 
@@ -74,6 +75,7 @@
           step="1"
           start={yearBuiltRange.min}
           end={yearBuiltRange.max}
+          title="Year Built"
           onchange={handleYearBuiltChange}
         ></c-multi-slider>
       </lightning-layout-item>
