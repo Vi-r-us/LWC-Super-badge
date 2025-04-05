@@ -1,0 +1,16 @@
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .input-num {
+    width: 100px;
+  }
+
+  .dash {
+    margin-bottom: -16px;
+    width: 10px;
+    height: 1px;
+    background-color: black;
+  }
+}

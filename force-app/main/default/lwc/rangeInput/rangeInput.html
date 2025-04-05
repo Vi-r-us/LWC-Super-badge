@@ -1,0 +1,37 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 04-06-2025
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+  <div class="slds-form-element">
+    <!-- <label class="slds-form-element__label">Price Range</label> -->
+    <div
+      class="input-container slds-form-element__control slds-grid slds-gutters"
+    >
+      <!-- Start Input -->
+      <lightning-input
+        class="slds-col input-num"
+        type="number"
+        label="Min"
+        value={start}
+        min={min}
+        max={end}
+        onchange={handleStartChange}
+      ></lightning-input>
+      <div class="dash"></div>
+      <!-- End Input -->
+      <lightning-input
+        class="slds-col input-num"
+        type="number"
+        label="Max"
+        value={end}
+        min={start}
+        max={max}
+        onchange={handleEndChange}
+      ></lightning-input>
+    </div>
+  </div>
+</template>

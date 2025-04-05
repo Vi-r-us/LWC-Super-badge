@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 04-03-2025
+  @last modified on  : 04-06-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -47,15 +47,24 @@
           onchange={handleSearchOptionChange}
         ></lightning-combobox>
 
+        
         <!-- Price range multi slider -->
-        <c-multi-slider
+        <c-range-input
+          min={priceMaxMinRange.min}
+          max={priceMaxMinRange.max}
+          start={priceRange.min}
+          end={priceRange.max}
+          onrangechange={handlePriceChange}
+        ></c-range-input>
+
+        <!-- <c-multi-slider
           min={priceMaxMinRange.min}
           max={priceMaxMinRange.max}
           step="10000"
           start={priceRange.min}
           end={priceRange.max}
           onchange={handlePriceChange}
-        ></c-multi-slider>
+        ></c-multi-slider> -->
 
         <!-- Length range multi slider -->
         <c-multi-slider
