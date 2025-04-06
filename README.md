@@ -84,6 +84,12 @@ The `force-app/main/default/components` folder contains Visualforce components u
 
 ---
 
+## Project Visualization
+
+![Markmap Visualization](./markmap.svg)
+
+---
+
 ## Development Tools and Configuration
 
 ### **Prettier**
