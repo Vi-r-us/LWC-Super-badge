@@ -86,7 +86,58 @@ The `force-app/main/default/components` folder contains Visualforce components u
 
 ## Project Visualization
 
-![Markmap Visualization](./markmap.svg)
+```md
+LWC Superbadge Project
+├── boatSearch
+│   ├── boatSearch.html
+│   ├── boatSearch.js
+│   ├── boatSearch.css
+│   └── boatSearch.js-meta.xml
+│   ├── Children:
+│       ├── boatSearchResults
+│       │   ├── boatSearchResults.html
+│       │   ├── boatSearchResults.js
+│       │   ├── boatSearchResults.css
+│       │   └── boatSearchResults.js-meta.xml
+│       │   ├── Children:
+│       │       └── boatTile
+│       │           ├── boatTile.html
+│       │           ├── boatTile.js
+│       │           ├── boatTile.css
+│       │           └── boatTile.js-meta.xml
+│       ├── boatDetailTabs
+│           ├── boatDetailTabs.html
+│           ├── boatDetailTabs.js
+│           ├── boatDetailTabs.css
+│           └── boatDetailTabs.js-meta.xml
+│           ├── Children:
+│               ├── boatMap
+│               │   ├── boatMap.html
+│               │   ├── boatMap.js
+│               │   ├── boatMap.css
+│               │   └── boatMap.js-meta.xml
+│               └── boatReviews
+│                   ├── boatReviews.html
+│                   ├── boatReviews.js
+│                   ├── boatReviews.css
+│                   └── boatReviews.js-meta.xml
+│                   ├── Children:
+│                       └── boatAddReviewForm
+│                           ├── boatAddReviewForm.html
+│                           ├── boatAddReviewForm.js
+│                           ├── boatAddReviewForm.css
+│                           └── boatAddReviewForm.js-meta.xml
+│       └── SimilarBoatsComponent
+│           ├── SimilarBoatsComponent.html
+│           ├── SimilarBoatsComponent.js
+│           ├── SimilarBoatsComponent.css
+│           └── SimilarBoatsComponent.js-meta.xml
+├── Apex Classes
+│   ├── BoatDataService.cls
+│   ├── BoatDataService.cls-meta.xml
+│   ├── SimilarBoatsController.cls
+│   └── SimilarBoatsController.cls-meta.xml
+```
 
 ---
 
