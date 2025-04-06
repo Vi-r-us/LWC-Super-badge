@@ -47,16 +47,6 @@
           onchange={handleSearchOptionChange}
         ></lightning-combobox>
 
-        
-        <!-- Price range multi slider -->
-        <c-range-input
-          min={priceMaxMinRange.min}
-          max={priceMaxMinRange.max}
-          start={priceRange.min}
-          end={priceRange.max}
-          onrangechange={handlePriceChange}
-        ></c-range-input>
-
         <!-- <c-multi-slider
           min={priceMaxMinRange.min}
           max={priceMaxMinRange.max}
@@ -87,6 +77,15 @@
           title="Year Built"
           onchange={handleYearBuiltChange}
         ></c-multi-slider>
+
+        <!-- Price range multi slider -->
+        <c-range-input
+          min={priceMaxMinRange.min}
+          max={priceMaxMinRange.max}
+          start={priceRange.min}
+          end={priceRange.max}
+          onrangechange={handlePriceChange}
+        ></c-range-input>
       </lightning-layout-item>
     </template>
   </lightning-layout>
